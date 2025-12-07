@@ -38,22 +38,18 @@ const suggestionButtons = [
 export default function Home() {
   const [query, setQuery] = useState("");
   const [focusMode, setFocusMode] = useState<"search" | "deep" | "reason">("search");
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
-
-  useEffect(() => {
+  const [theme, setTheme] = useState<"dark" | "light">(() => {
     try {
       const stored = localStorage.getItem("theme");
-      if (stored === "light" || stored === "dark") {
-        setTheme(stored);
-      } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
-        setTheme("light");
-      } else {
-        setTheme("dark");
+      if (stored === "light" || stored === "dark") return stored;
+      if (typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+        return "light";
       }
     } catch (e) {
       /* ignore */
     }
-  }, []);
+    return "dark";
+  });
 
   useEffect(() => {
     try {
@@ -63,6 +59,41 @@ export default function Home() {
         document.documentElement.classList.remove("dark");
       }
       localStorage.setItem("theme", theme);
+    } catch (e) {
+      /* ignore */
+    }
+  }, [theme]);
+
+  // Update favicon dynamically based on theme.
+  useEffect(() => {
+    try {
+      const iconUrl = theme === "dark" ? "/sonar-white.svg" : "/sonar-black.svg";
+      const cacheBustedUrl = `${iconUrl}?v=${Date.now()}`;
+
+      // Remove any existing favicon links (e.g. icon, shortcut icon, apple-touch-icon)
+      const faviconSelectors = [
+        "link[rel='icon']",
+        "link[rel='shortcut icon']",
+        "link[rel='apple-touch-icon']",
+        "link[rel='mask-icon']",
+      ];
+      faviconSelectors.forEach((sel) => {
+        const nodes = Array.from(document.querySelectorAll(sel));
+        nodes.forEach((n) => n.parentNode?.removeChild(n));
+      });
+
+      // Create a new favicon (SVG) link and append it
+      const newIcon = document.createElement("link");
+      newIcon.rel = "icon";
+      newIcon.href = cacheBustedUrl;
+      newIcon.type = "image/svg+xml";
+      document.head.appendChild(newIcon);
+
+      // Add apple-touch-icon as well
+      const apple = document.createElement("link");
+      apple.rel = "apple-touch-icon";
+      apple.href = cacheBustedUrl;
+      document.head.appendChild(apple);
     } catch (e) {
       /* ignore */
     }
@@ -105,12 +136,17 @@ export default function Home() {
 
       {/* Logo */}
       <h1
-        className={`mb-8 text-5xl font-serif italic tracking-tight ${
+        className={`mb-3 text-5xl font-serif italic tracking-tight ${
           theme === "dark" ? "text-zinc-100" : "text-zinc-900"
         }`}
       >
         sonar
       </h1>
+
+      {/* Short descriptive paragraph for SEO */}
+      <p className={`max-w-3xl text-center mb-8 ${theme === "dark" ? "text-zinc-400" : "text-zinc-600"}`}>
+        the <a href="https://github.com/PrathamGhaywat/sonar">opensource</a> AI Search that doesn&apos;t deliever BS     
+       </p>
 
       {/* Search Container */}
       <div className="w-full max-w-2xl">
@@ -122,9 +158,12 @@ export default function Home() {
               : "bg-white border border-gray-200"
           }`}
         >
-          {/* Input Area */}
-          <div className="flex items-center px-6 py-4">
+          {/* Input Area - semantic form for accessibility */}
+          <form className="flex items-center w-full" role="search" aria-label="Site search" onSubmit={(e) => e.preventDefault()}>
+            <div className="flex items-center flex-1 px-6 py-4">
             <Input
+              id="search-input"
+              name="q"
               type="text"
               placeholder="Ask anything. Type @ for mentions."
               value={query}
@@ -135,7 +174,8 @@ export default function Home() {
                   : "text-zinc-900 placeholder:text-zinc-400"
               }`}
             />
-          </div>
+            </div>
+          </form>
 
           {/* Bottom Toolbar */}
           <div className="flex items-center justify-between px-3 pb-3">

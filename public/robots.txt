@@ -1,0 +1,6 @@
+User-agent: *
+Disallow:
+Allow: /
+
+# Change the sitemap url to your production domain after deployment
+Sitemap: https://sonar.ultimatedev.space/sitemap.xml
