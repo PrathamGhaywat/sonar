@@ -120,3 +120,76 @@
     @apply bg-background text-foreground;
   }
 }
+
+/*md style for chat msgs */
+.prose {
+  @apply text-zinc-900 dark:text-zinc-100;
+}
+
+.prose p {
+  @apply my-2;
+}
+
+.prose strong {
+  @apply font-semibold text-zinc-900 dark:text-zinc-100;
+}
+
+.prose em {
+  @apply italic;
+}
+
+.prose code {
+  @apply bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded text-sm font-mono;
+}
+
+.prose pre {
+  @apply bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg overflow-x-auto my-3;
+}
+
+.prose pre code {
+  @apply bg-transparent p-0;
+}
+
+.prose ul, .prose ol {
+  @apply my-2 ml-4;
+}
+
+.prose li {
+  @apply my-1;
+}
+
+.prose a {
+  @apply text-blue-600 dark:text-blue-400 hover:underline;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  @apply font-semibold mt-4 mb-2;
+}
+
+.prose h1 {
+  @apply text-xl;
+}
+
+.prose h2 {
+  @apply text-lg;
+}
+
+.prose h3 {
+  @apply text-base;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-zinc-300 dark:border-zinc-700 pl-4 italic my-3;
+}
+
+.prose table {
+  @apply w-full my-3 border-collapse;
+}
+
+.prose th {
+  @apply border border-zinc-300 dark:border-zinc-700 px-3 py-2 bg-zinc-100 dark:bg-zinc-800 font-semibold;
+}
+
+.prose td {
+  @apply border border-zinc-300 dark:border-zinc-700 px-3 py-2;
+}
