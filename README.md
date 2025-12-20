@@ -26,10 +26,10 @@ Sonar is an opensource AI-powered search augementation tool that enhances search
     ```bash
     npm run dev
     ```
-Alternatively, you can deploy Sonar on platforms like Vercel or Netlify for easy hosting. I recommend using Vercel for seamless integration with Next.js applications. But for self-hosting, follow you might want to use coolify, since it is the easiest to setup and use.
+Alternatively, you can deploy Sonar on platforms like Vercel or Netlify for easy hosting. I recommend using Vercel for seamless integration with Next.js applications. But for self-hosting, follow you might want to use [coolify](https://coolify.io/), since it is the easiest to setup and use.
 
 ## License
 This project is licensed under the Apache 2.0 License. See the [LICENSE](LICENSE.md) file for details.
 
 ## Credits
-Thanks to [HackClub](https://hackclub.com) for providing the infrastructure for the development of this project free of cost. Support them by donating their mission of educating the next generation of programmers at [HackClub Donations](https://hackclub.com/philanthropy/).
+Thanks to [HackClub](https://hackclub.com) for providing the infrastructure for the project free of cost. Support them by donating their mission of educating the next generation of programmers at [HackClub Donations](https://hackclub.com/philanthropy/).
