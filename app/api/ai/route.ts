@@ -8,7 +8,7 @@ const openai = new OpenAI({
 
 export async function POST(req: Request) {
   const { query, results } = await req.json();
-
+    
   const context = results
     .map(
       (r: { title: string; description: string; url: string }, i: number) =>
@@ -16,22 +16,43 @@ export async function POST(req: Request) {
     )
     .join("\n\n");
 
-  const completion = await openai.chat.completions.create({
+  const stream = await openai.chat.completions.create({
     model: "google/gemini-3-pro-preview",
     messages: [
       {
         role: "system",
         content:
-          "You are an AI search engine called Sonar. Answer concisely and cite sources using [number] notation.",
+          "You are a friendly but straight to the point AI search engine. Answer concisely and cite sources using [number] notation. If the user asks which model you are, state your model name ",
       },
       {
         role: "user",
         content: `Question: ${query}\n\nSources:\n${context}`,
       },
     ],
+    stream: true,
   });
 
-  return NextResponse.json({
-    answer: completion.choices[0].message.content,
-  });
+  let answer = "";
+
+  type StreamChunk = {
+    choices?: Array<{
+      delta?: { content?: string; text?: string; role?: string };
+      message?: { content?: string };
+    }>;
+  };
+
+  try {
+    for await (const chunk of stream as AsyncIterable<StreamChunk>) {
+      const choices = chunk.choices ?? [];
+      for (const c of choices) {
+        const content = c.delta?.content ?? c.delta?.text ?? c.message?.content;
+        if (content) answer += content;
+      }
+    }
+  } catch (err) {
+    console.error("Error while reading completion stream:", err);
+    return NextResponse.json({ error: "Failed to read completion stream" }, { status: 500 });
+  }
+
+  return NextResponse.json({ answer });
 }

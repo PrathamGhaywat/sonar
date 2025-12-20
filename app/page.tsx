@@ -262,7 +262,7 @@ export default function Home() {
             </h1>
 
             {/* Short descriptive paragraph for SEO */}
-            <p className={`max-w-3xl text-center mb-8 ${theme === "dark" ? "text-zinc-400" : "text-zinc-600"}`}>
+            <p className={`max-w-3xl text-center ${theme === "dark" ? "text-zinc-400" : "text-zinc-600"}`}>
               the <a href="https://github.com/PrathamGhaywat/sonar" className="underline">opensource</a> AI Search that doesn&apos;t deliver BS
             </p>
           </div>
@@ -345,7 +345,7 @@ export default function Home() {
       </div>
 
       {/* Search Container - Fixed at bottom of screen when chatting */}
-      <div className={`${hasSearched ? "fixed bottom-0 left-0 right-0 z-40 pb-6" : "w-full max-w-2xl"}`}>
+      <div className={`${hasSearched ? "fixed bottom-0 left-0 right-0 z-40 pb-6" : "w-full max-w-2xl mx-auto mb-70 -mt-60"}`}>
         <div className={`${hasSearched ? "max-w-3xl mx-auto px-4" : ""}`}>
           {/* Search Input */}
           <div
