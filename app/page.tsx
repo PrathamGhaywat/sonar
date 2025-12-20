@@ -270,7 +270,7 @@ export default function Home() {
 
         {/* Chat Messages */}
         {hasSearched && (
-          <div className="w-full max-w-3xl mx-auto mb-6 space-y-6">
+          <div className="w-full max-w-3xl mx-auto mb-6 pb-32 space-y-6">
             {messages.map((message) => (
               <div key={message.id} className="space-y-3">
                 {message.role === "user" ? (
@@ -342,9 +342,11 @@ export default function Home() {
             <div ref={messagesEndRef} />
           </div>
         )}
+      </div>
 
-        {/* Search Container - Sticky at bottom when chatting */}
-        <div className={`w-full max-w-2xl ${hasSearched ? "sticky bottom-6 mx-auto" : ""}`}>
+      {/* Search Container - Fixed at bottom of screen when chatting */}
+      <div className={`${hasSearched ? "fixed bottom-0 left-0 right-0 z-40 pb-6" : "w-full max-w-2xl"}`}>
+        <div className={`${hasSearched ? "max-w-3xl mx-auto px-4" : ""}`}>
           {/* Search Input */}
           <div
             className={`relative rounded-2xl shadow-lg ${
@@ -548,7 +550,8 @@ export default function Home() {
 
         {/* Suggestion Pills - Only show when not searched */}
         {!hasSearched && (
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-2">{suggestionButtons.map((item) => (
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+            {suggestionButtons.map((item) => (
               <Button
                 key={item.label}
                 variant="outline"
